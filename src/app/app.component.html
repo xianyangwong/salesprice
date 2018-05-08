@@ -1,20 +1,57 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+
+<div id="main">
+
+  <!-- Calculator -->
+  <section id="intro" class="main">
+    <div class="spotlight">
+      <div class="content">
+        <header class="major">
+          <h2>销售价格计算器</h2>
+        </header>
+        <div class="form">
+          <div class="field" id="type">
+            <p>选择车型：</p>
+            <ng-container *ngFor="let r of ranges; index as i">
+              <input id="type_{{i}}" type="radio" name="type" value="type{{i}}" required (click)="selectedType(i)">
+              <label for="type_{{i}}">
+                <i>{{r['车型']}}</i>
+              </label>
+            </ng-container>
+    
+            
+          </div>
+          <div class="field" id="make" *ngIf="selectedTypeId != null">
+            <p>选择车辆：</p>
+            <select name="make" required>
+              <option *ngFor="let r of getSelectedMake()">{{r["车型"]}}</option>
+            </select>
+          </div>
+          <div class="field" id="insurance" *ngIf="selectedTypeId != null">
+            <p>选择保险套餐：</p>
+            <ng-container *ngFor="let r of insurance; index as i">
+              <input id="insurance_{{i}}" type="checkbox" name="insurance" value="insurance{{i}}" >
+              <label for="insurance_{{i}}">
+                <i>{{r['险种']}}</i>
+              </label>
+            </ng-container>
+          
+          
+          </div>
+
+          <div class="field" id="gift" *ngIf="selectedTypeId != null">
+            <p>选择可以赠送的精品</p>
+            <ng-container *ngFor="let r of gift; index as i">
+              <input id="gift_{{i}}" type="checkbox" name="gift" value="gift{{i}}">
+              <label for="gift_{{i}}">
+                <i>{{r['名称']}}</i>
+              </label>
+            </ng-container>
+          
+          
+          </div>
+        </div>
+      </div>
+      </div>
+  </section>
+</div>
