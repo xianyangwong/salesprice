@@ -10,10 +10,17 @@
           <h2>销售价格计算器</h2>
         </header>
         <div class="form">
+
+          <div class="field total" *ngIf="search.type && search.make">
+            推荐售价: {{total | currency}}
+            <br/>
+          </div>
+
+
           <div class="field" id="type">
             <p>选择车型：</p>
             <ng-container *ngFor="let r of ranges; index as i">
-              <input id="type_{{i}}" type="radio" name="type" value="type{{i}}" required (click)="selectedType(i)">
+              <input [(ngModel)]="search.type" id="type_{{i}}" type="radio" name="type" value="type{{i}}" required (click)="selectedType(i)" (change)="onChange()">
               <label for="type_{{i}}">
                 <i>{{r['车型']}}</i>
               </label>
@@ -23,14 +30,14 @@
           </div>
           <div class="field" id="make" *ngIf="selectedTypeId != null">
             <p>选择车辆：</p>
-            <select name="make" required>
-              <option *ngFor="let r of getSelectedMake()">{{r["车型"]}}</option>
+            <select name="make" required [(ngModel)]="search.make" (change)="onChange()">
+              <option *ngFor="let r of getSelectedMake()" value="{{r['序号']}}">{{r["车型"]}}</option>
             </select>
           </div>
           <div class="field" id="insurance" *ngIf="selectedTypeId != null">
             <p>选择保险套餐：</p>
             <ng-container *ngFor="let r of insurance; index as i">
-              <input id="insurance_{{i}}" type="checkbox" name="insurance" value="insurance{{i}}" >
+              <input id="insurance_{{i}}" type="checkbox" name="insurance" value="insurance{{i}}" [(ngModel)]="search.insurance[i]" (change)="onChange()">
               <label for="insurance_{{i}}">
                 <i>{{r['险种']}}</i>
               </label>
@@ -42,7 +49,7 @@
           <div class="field" id="gift" *ngIf="selectedTypeId != null">
             <p>选择可以赠送的精品</p>
             <ng-container *ngFor="let r of gift; index as i">
-              <input id="gift_{{i}}" type="checkbox" name="gift" value="gift{{i}}">
+              <input id="gift_{{i}}" type="checkbox" name="gift" value="gift{{i}}" [(ngModel)]="search.gift[i]" (change)="onChange()">
               <label for="gift_{{i}}">
                 <i>{{r['名称']}}</i>
               </label>
@@ -51,6 +58,8 @@
           
           </div>
         </div>
+
+       
       </div>
       </div>
   </section>

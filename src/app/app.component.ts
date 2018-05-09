@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import * as XLSX from "xlsx";
 
 @Component({
@@ -13,12 +13,46 @@ export class AppComponent {
   public model;
   public insurance;
   public gift;
+  public search ={
+    type: null,
+    make: null,
+    gift: [],
+    insurance: []
+  }
+
+  public total = 0;
 
   public selectedTypeId;
 
   constructor() {}
   selectedType(id) {
     this.selectedTypeId = id;
+  }
+
+  onChange(){
+    if(this.search.make && this.search.type){
+
+      let gp = 1 + this.ranges[this.selectedTypeId]['毛利率'];
+      let cost = 0;
+      let gift=0;
+      this.model.forEach(element => {
+        if(element["序号"]==this.search.make){
+          cost = element["单车车本"];
+        }
+      });
+      console.log("毛利率",gp);
+      console.log("单车成本",cost)
+
+      this.search.gift.forEach((element,index) => {
+        if(element){
+          gift +=this.gift[index]["成本价（元）"];
+        }
+      });
+
+      console.log("精品成本",gift)
+
+      this.total = (cost + gift)*gp
+    }
   }
 
   getSelectedMake(){
@@ -88,7 +122,6 @@ export class AppComponent {
         return obj;
       });
       self.model = model;
-      console.log(model);
     };
 
     oReq.send();
