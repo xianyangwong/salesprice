@@ -17,10 +17,15 @@ export class AppComponent {
     type: null,
     make: null,
     gift: [],
-    insurance: []
+    insurance: [],
+    discount: null
   }
 
   public total = 0;
+  public singlePrice = 0;
+  public insurancePrice = 0;
+  public giftPrice = 0;
+
 
   public selectedTypeId;
 
@@ -35,23 +40,70 @@ export class AppComponent {
       let gp = 1 + this.ranges[this.selectedTypeId]['毛利率'];
       let cost = 0;
       let gift=0;
+      this.giftPrice = 0;
+      let insuranceReturn = 0
+      let insurance = [];
       this.model.forEach(element => {
         if(element["序号"]==this.search.make){
           cost = element["单车车本"];
         }
       });
-      console.log("毛利率",gp);
-      console.log("单车成本",cost)
+      
 
       this.search.gift.forEach((element,index) => {
         if(element){
           gift +=this.gift[index]["成本价（元）"];
+          this.giftPrice += this.gift[index]["售价（元）"];
         }
       });
 
-      console.log("精品成本",gift)
+      this.search.insurance.forEach((element,index) => {
+        if(element){
+          let temp = this.insurance[index]["金额"];
+          if(typeof temp == "string"){
+            temp = temp.replace("*车辆售价","");
+          }
 
-      this.total = (cost + gift)*gp
+          insurance.push(temp)
+          insuranceReturn += this.insurance[index]["返利"];
+        }
+      });
+
+      let insuranceA = 0;
+      let insuranceB = 0;
+
+      insurance.forEach(element=>{
+        if(typeof element == "string"){
+          element = parseFloat(element) / 100.0;
+          insuranceA += element
+        }
+        else{
+          insuranceB += element
+        }
+      })
+
+      
+
+      
+      /* X */
+      this.total = (cost + gift + (this.search.discount - insuranceReturn))*gp
+
+      /* A */
+      this.singlePrice = (this.total - this.giftPrice - insuranceB) / (1 + insuranceA);
+      
+      /* B */
+      this.insurancePrice = insuranceB + (this.singlePrice*insuranceA);
+
+
+      console.log("毛利率", gp);
+      console.log("单车成本", cost);
+      console.log("保险折扣", this.search.discount);
+      console.log("浮动保险售价", insuranceA);
+      console.log("固定保险售价", insuranceB);
+      console.log("精品成本", gift);
+      console.log("保险返利", insuranceReturn);
+
+
     }
   }
 

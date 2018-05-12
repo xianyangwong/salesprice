@@ -7,13 +7,18 @@
     <div class="spotlight">
       <div class="content">
         <header class="major">
-          <h2>销售价格计算器</h2>
+          <h2>VFP定价模型</h2>
         </header>
         <div class="form">
 
           <div class="field total" *ngIf="search.type && search.make">
             推荐售价: {{total | currency}}
             <br/>
+            单车售价: {{singlePrice | currency}}
+            <br/>
+            保险售价: {{insurancePrice | currency}}
+            <br/>
+            精品售价: {{giftPrice | currency}}
           </div>
 
 
@@ -44,6 +49,14 @@
             </ng-container>
           
           
+          </div>
+
+          <div class="field" id="insurance_discount" *ngIf="selectedTypeId != null">
+            <p>保险折扣：</p>
+            
+              <input type="text" name="discount" [(ngModel)]="search.discount" (change)="onChange()">
+
+    
           </div>
 
           <div class="field" id="gift" *ngIf="selectedTypeId != null">
