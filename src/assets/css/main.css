@@ -3639,6 +3639,11 @@
 			position: relative;
 		}
 
+    #main .field-details{
+      margin-bottom: 50px;
+      margin-top: 20px;
+    }
+
     #main .total{
       background: #f7f7f7;
       padding: 30px;
@@ -3662,17 +3667,17 @@
         text-align: center;
       }
 
-      #main .total .total-container ul {
+      #main .total ul {
         margin: 0;
       }
-      #main .total .total-container ul.dashed {
+      #main .total ul.dashed {
         list-style-type: none;
       }
-      #main .total .total-container ul.dashed > li {
+      #main .total ul.dashed > li {
         text-indent: -5px;
         margin-left: -1em;
       }
-      #main .total .total-container ul.dashed > li:before {
+      #main .total ul.dashed > li:before {
         content: "-";
         text-indent: -5px;
         padding-right: 1em;

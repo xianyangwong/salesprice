@@ -40,15 +40,18 @@
               </div>
 
             </div>
-            <div class="total" *ngIf="getSelectedMakeDetails()">
-              <div class="total-container">
-                <ul class="dashed">
-                  <li>车型: {{getSelectedMakeDetails()["车型"]}}</li>
-                  <li>车架号: {{getSelectedMakeDetails()["车架号"]}}</li>
-                  <li>颜色: {{getSelectedMakeDetails()["颜色"]}}</li>
-                </ul>
-              </div>
-            </div>
+            <table class="field-details" *ngIf="getSelectedMakeDetails()">
+              <tr>
+                <th>车型:</th>
+                <th>车架号:</th>
+                <th>颜色:</th>
+              </tr>
+              <tr>
+                <td>{{getSelectedMakeDetails()["车型"]}}</td>
+                <td>{{getSelectedMakeDetails()["车架号"]}}</td>
+                <td>{{getSelectedMakeDetails()["颜色"]}}</td>
+              </tr>
+            </table>
             <hr/>
 
             <div class="field" id="insurance" *ngIf="selectedTypeId != null">
@@ -64,13 +67,18 @@
                 </ng-container>
               </div>
             </div>
-            <div class="total" *ngIf="getSelectedInsurance().length>0">
-              <div class="total-container">
-                <ul class="dashed">
-                  <li *ngFor="let i of getSelectedInsurance()"><i>{{i["险种"]}}</i> : {{i["金额"]}}</li>
-                </ul>
-              </div>
-            </div>
+            <table class="field-details" *ngIf="getSelectedInsurance().length>0">
+              <tr>
+                <th>险种:</th>
+                <th>金额:</th>
+              </tr>
+              <tr *ngFor="let i of getSelectedInsurance()">
+                <td>{{i["险种"]}}</td>
+                <td>{{i["金额"]}}</td>
+              </tr>
+            </table>
+            <hr/>
+
             <div class="field" id="insurance_discount" *ngIf="selectedTypeId != null">
               <div class="field-title">
                 <p>保险折扣：</p>
@@ -92,12 +100,18 @@
                   </label>
                 </ng-container>
               </div>
-
             </div>
+            <table class="field-details" *ngIf="getSelectedGift().length>0">
+              <tr>
+                <th>已选择的精品:</th>
+                <th>金额:</th>
+              </tr>
+              <tr *ngFor="let i of getSelectedGift()">
+                <td>{{i["名称"]}}</td>
+                <td>{{i["售价（元）"]}}</td>
+              </tr>
+            </table>
           </ng-container>
-
-
-
 
         </div>
         <ng-container *ngIf="search.type && search.make">
@@ -106,12 +120,8 @@
             <p>推荐售价：</p>
             <div class="total-container">
               <h2>{{total | currency:'CNY'}}</h2>
-              <ul class="dashed">
-                <li>单车售价: {{singlePrice | currency:'CNY'}}</li>
-                <li>保险售价: {{insurancePrice | currency:'CNY'}}</li>
-                <li>精品售价: {{giftPrice | currency:'CNY'}}</li>
-              </ul>
             </div>
+
           </div>
         </ng-container>
 

@@ -114,10 +114,22 @@ export class AppComponent {
   getSelectedInsurance(){
 
     let temp = [];
-    console.log(this.insurance)
     this.search.insurance.forEach((e,i)=>{
       if(e == true){
         temp.push(this.insurance[i])
+      }
+    })
+
+    return temp;
+
+  }
+
+  getSelectedGift(){
+
+    let temp = [];
+    this.search.gift.forEach((e,i)=>{
+      if(e == true){
+        temp.push(this.gift[i])
       }
     })
 
