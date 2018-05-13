@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import * as XLSX from "xlsx";
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent {
   public gift;
   public search ={
     type: null,
-    make: null,
+    make: "",
     gift: [],
     insurance: [],
     discount: null
@@ -34,6 +34,10 @@ export class AppComponent {
     this.selectedTypeId = id;
   }
 
+  typeChange(){
+    this.search.make = "";
+  }
+
   onChange(){
     if(this.search.make && this.search.type){
 
@@ -48,7 +52,7 @@ export class AppComponent {
           cost = element["单车车本"];
         }
       });
-      
+
 
       this.search.gift.forEach((element,index) => {
         if(element){
@@ -82,29 +86,43 @@ export class AppComponent {
         }
       })
 
-      
 
-      
+
+
       /* X */
       this.total = (cost + gift + (this.search.discount - insuranceReturn))*gp
 
       /* A */
       this.singlePrice = (this.total - this.giftPrice - insuranceB) / (1 + insuranceA);
-      
+
       /* B */
       this.insurancePrice = insuranceB + (this.singlePrice*insuranceA);
 
 
-      console.log("毛利率", gp);
-      console.log("单车成本", cost);
-      console.log("保险折扣", this.search.discount);
-      console.log("浮动保险售价", insuranceA);
-      console.log("固定保险售价", insuranceB);
-      console.log("精品成本", gift);
-      console.log("保险返利", insuranceReturn);
+      // console.log("毛利率", gp);
+      // console.log("单车成本", cost);
+      // console.log("保险折扣", this.search.discount);
+      // console.log("浮动保险售价", insuranceA);
+      // console.log("固定保险售价", insuranceB);
+      // console.log("精品成本", gift);
+      // console.log("保险返利", insuranceReturn);
 
 
     }
+  }
+
+  getSelectedInsurance(){
+
+    let temp = [];
+    console.log(this.insurance)
+    this.search.insurance.forEach((e,i)=>{
+      if(e == true){
+        temp.push(this.insurance[i])
+      }
+    })
+
+    return temp;
+
   }
 
   getSelectedMake(){
@@ -115,6 +133,24 @@ export class AppComponent {
       }
     });
     return filteredModel
+  }
+
+  getSelectedMakeDetails(){
+
+    if(this.selectedTypeId!= null){
+      let filteredModel =  this.getSelectedMake();
+
+      let temp;
+
+      filteredModel.forEach(m=>{
+        if(m["序号"] == this.search.make){
+          temp = m;
+        }
+      })
+      return temp;
+    }
+    return;
+
   }
 
   ngOnInit() {

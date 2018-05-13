@@ -11,68 +11,111 @@
         </header>
         <div class="form">
 
-          <div class="field total" *ngIf="search.type && search.make">
-            推荐售价: {{total | currency}}
-            <br/>
-            单车售价: {{singlePrice | currency}}
-            <br/>
-            保险售价: {{insurancePrice | currency}}
-            <br/>
-            精品售价: {{giftPrice | currency}}
-          </div>
+          <div class="field" id="type" *ngIf="ranges">
+            <div class="field-title">
+              <p>选择车型：</p>
+            </div>
+            <div class="field-content">
+              <ng-container *ngFor="let r of ranges; index as i">
+                  <input [(ngModel)]="search.type" id="type_{{i}}" type="radio" name="type" value="type{{i}}" required (click)="selectedType(i)" (change)="onChange(); typeChange();">
+                  <label for="type_{{i}}">
+                    {{r['车型']}}
+                  </label>
+              </ng-container>
+            </div>
 
 
-          <div class="field" id="type">
-            <p>选择车型：</p>
-            <ng-container *ngFor="let r of ranges; index as i">
-              <input [(ngModel)]="search.type" id="type_{{i}}" type="radio" name="type" value="type{{i}}" required (click)="selectedType(i)" (change)="onChange()">
-              <label for="type_{{i}}">
-                <i>{{r['车型']}}</i>
-              </label>
-            </ng-container>
-    
-            
           </div>
-          <div class="field" id="make" *ngIf="selectedTypeId != null">
-            <p>选择车辆：</p>
-            <select name="make" required [(ngModel)]="search.make" (change)="onChange()">
-              <option *ngFor="let r of getSelectedMake()" value="{{r['序号']}}">{{r["车型"]}}</option>
-            </select>
-          </div>
-          <div class="field" id="insurance" *ngIf="selectedTypeId != null">
-            <p>选择保险套餐：</p>
-            <ng-container *ngFor="let r of insurance; index as i">
-              <input id="insurance_{{i}}" type="checkbox" name="insurance" value="insurance{{i}}" [(ngModel)]="search.insurance[i]" (change)="onChange()">
-              <label for="insurance_{{i}}">
-                <i>{{r['险种']}}</i>
-              </label>
-            </ng-container>
-          
-          
-          </div>
+          <ng-container *ngIf="selectedTypeId != null">
+            <hr/>
+            <div class="field" id="make" >
+              <div class="field-title">
+                <p>选择车辆：</p>
+              </div>
+              <div class="field-content">
+                <select name="make" required [(ngModel)]="search.make" (change)="onChange()">
+                  <option value="" disabled selected>--选择车型--</option>
+                  <option *ngFor="let r of getSelectedMake()" value="{{r['序号']}}">{{r["车型"]}}</option>
+                </select>
+              </div>
 
-          <div class="field" id="insurance_discount" *ngIf="selectedTypeId != null">
-            <p>保险折扣：</p>
-            
-              <input type="text" name="discount" [(ngModel)]="search.discount" (change)="onChange()">
+            </div>
+            <div class="total" *ngIf="getSelectedMakeDetails()">
+              <div class="total-container">
+                <ul class="dashed">
+                  <li>车型: {{getSelectedMakeDetails()["车型"]}}</li>
+                  <li>车架号: {{getSelectedMakeDetails()["车架号"]}}</li>
+                  <li>颜色: {{getSelectedMakeDetails()["颜色"]}}</li>
+                </ul>
+              </div>
+            </div>
+            <hr/>
 
-    
-          </div>
+            <div class="field" id="insurance" *ngIf="selectedTypeId != null">
+              <div class="field-title">
+                <p>选择保险套餐：</p>
+              </div>
+              <div class="field-content">
+                <ng-container *ngFor="let r of insurance; index as i">
+                  <input id="insurance_{{i}}" type="checkbox" name="insurance" value="insurance{{i}}" [(ngModel)]="search.insurance[i]" (change)="onChange()">
+                  <label for="insurance_{{i}}">
+                    {{r['险种']}}
+                  </label>
+                </ng-container>
+              </div>
+            </div>
+            <div class="total" *ngIf="getSelectedInsurance().length>0">
+              <div class="total-container">
+                <ul class="dashed">
+                  <li *ngFor="let i of getSelectedInsurance()"><i>{{i["险种"]}}</i> : {{i["金额"]}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="field" id="insurance_discount" *ngIf="selectedTypeId != null">
+              <div class="field-title">
+                <p>保险折扣：</p>
+              </div>
+              <div class="field-content">
+                <input type="text" name="discount" [(ngModel)]="search.discount" (change)="onChange()">
+              </div>
+            </div>
+            <hr/>
+            <div class="field" id="gift" *ngIf="selectedTypeId != null">
+              <div class="field-title">
+                <p>选择可以赠送的精品</p>
+              </div>
+              <div class="field-content">
+                <ng-container *ngFor="let r of gift; index as i">
+                  <input id="gift_{{i}}" type="checkbox" name="gift" value="gift{{i}}" [(ngModel)]="search.gift[i]" (change)="onChange()">
+                  <label for="gift_{{i}}">
+                    <i>{{r['名称']}}</i>
+                  </label>
+                </ng-container>
+              </div>
 
-          <div class="field" id="gift" *ngIf="selectedTypeId != null">
-            <p>选择可以赠送的精品</p>
-            <ng-container *ngFor="let r of gift; index as i">
-              <input id="gift_{{i}}" type="checkbox" name="gift" value="gift{{i}}" [(ngModel)]="search.gift[i]" (change)="onChange()">
-              <label for="gift_{{i}}">
-                <i>{{r['名称']}}</i>
-              </label>
-            </ng-container>
-          
-          
-          </div>
+            </div>
+          </ng-container>
+
+
+
+
         </div>
+        <ng-container *ngIf="search.type && search.make">
+          <hr/>
+          <div class="total">
+            <p>推荐售价：</p>
+            <div class="total-container">
+              <h2>{{total | currency:'CNY'}}</h2>
+              <ul class="dashed">
+                <li>单车售价: {{singlePrice | currency:'CNY'}}</li>
+                <li>保险售价: {{insurancePrice | currency:'CNY'}}</li>
+                <li>精品售价: {{giftPrice | currency:'CNY'}}</li>
+              </ul>
+            </div>
+          </div>
+        </ng-container>
 
-       
+
       </div>
       </div>
   </section>

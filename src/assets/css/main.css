@@ -2745,7 +2745,7 @@
 	}
 
 	table {
-		margin: 0 0 2em 0;
+		/* margin: 0 0 2em 0; */
 		width: 100%;
 	}
 
@@ -3625,11 +3625,6 @@
 				}
 
 		/* Custom Styling */
-		#main .field p{
-			display: inline-block;
-			width: 250px;
-		}
-
 		#main .submit{
 			text-align: center;
 		    padding-top: 2em;
@@ -3643,6 +3638,47 @@
 			display: none;
 			position: relative;
 		}
+
+    #main .total{
+      background: #f7f7f7;
+      padding: 30px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 50px;
+    }
+
+      #main .total .total-container{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 350px;
+        max-width: 100%;
+      }
+
+      #main .total .total-container h2{
+        color: red;
+        font-weight: bold;
+        margin-bottom: 2em;
+        text-align: center;
+      }
+
+      #main .total .total-container ul {
+        margin: 0;
+      }
+      #main .total .total-container ul.dashed {
+        list-style-type: none;
+      }
+      #main .total .total-container ul.dashed > li {
+        text-indent: -5px;
+        margin-left: -1em;
+      }
+      #main .total .total-container ul.dashed > li:before {
+        content: "-";
+        text-indent: -5px;
+        padding-right: 1em;
+      }
+
+
 		/* -------------- */
 
 		@media screen and (max-width: 1280px) {
@@ -3718,6 +3754,22 @@
 						}
 
 		}
+
+    /* Custom Styling */
+    @media screen and (min-width: 981px) {
+      #main .field{
+        display: table;
+      }
+        #main .field .field-title,
+        #main .field .field-content {
+          display: table-cell;
+        }
+        #main .field .field-title{
+          width: 250px;
+          max-width: 100%;
+        }
+    }
+    /* -------------- */
 
 /* Footer */
 
