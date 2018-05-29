@@ -22,7 +22,9 @@ export class AppComponent {
   }
 
   public total = 0;
+  public totalY = 0;
   public singlePrice = 0;
+  public singlePriceY = 0
   public insurancePrice = 0;
   public giftPrice = 0;
 
@@ -41,8 +43,9 @@ export class AppComponent {
   onChange(){
     if(this.search.make && this.search.type){
 
-      let gp = 1 + this.ranges[this.selectedTypeId]['毛利率'];
+      let gp = this.ranges[this.selectedTypeId]['毛利率'];
       let cost = 0;
+      let akk = 0;
       let gift=0;
       this.giftPrice = 0;
       let insuranceReturn = 0
@@ -50,6 +53,7 @@ export class AppComponent {
       this.model.forEach(element => {
         if(element["序号"]==this.search.make){
           cost = element["单车车本"];
+          akk = element["完成AAK最终进价"];
         }
       });
 
@@ -90,13 +94,20 @@ export class AppComponent {
 
 
       /* X */
-      this.total = (cost + gift + (this.search.discount - insuranceReturn))*gp
-
-      /* A */
-      this.singlePrice = (this.total - this.giftPrice - insuranceB) / (1 + insuranceA);
+      this.total = cost + gift + this.search.discount + (gp * akk)
 
       /* B */
-      this.insurancePrice = insuranceB + (this.singlePrice*insuranceA);
+      this.insurancePrice = insuranceB + ((akk * gp) + cost) * insuranceA;
+
+      /* A */
+      this.singlePrice = this.total - this.insurancePrice - this.giftPrice
+
+      
+      /* Y */
+      this.totalY = this.total + (this.giftPrice - gift);
+
+      /* A-Y */
+      this.singlePriceY = this.totalY - this.insurancePrice -  this.giftPrice;
 
 
       // console.log("毛利率", gp);

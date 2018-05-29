@@ -84,7 +84,7 @@
                 <p>保险折扣：</p>
               </div>
               <div class="field-content">
-                <input type="text" name="discount" [(ngModel)]="search.discount" (change)="onChange()">
+                <input type="number" name="discount" [(ngModel)]="search.discount" (change)="onChange()">
               </div>
             </div>
             <hr/>
@@ -116,13 +116,33 @@
         </div>
         <ng-container *ngIf="search.type && search.make">
           <hr/>
-          <div class="total">
-            <p>推荐售价：</p>
-            <div class="total-container">
-              <h2>{{total | currency:'CNY'}}</h2>
+          <div class="row">
+            <div class="total">
+              <p>推荐售价：</p>
+              <div class="total-container">
+                <h2>{{totalY | currency:'CNY'}}</h2>
+                <ul class="dashed">
+                  <li>单车售价: {{singlePriceY | currency:'CNY'}}</li>
+                  <li>保险售价: {{insurancePrice | currency:'CNY'}}</li>
+                  <li>精品售价: {{giftPrice | currency:'CNY'}}</li>
+                </ul>
+              </div>
+            
             </div>
-
+            <div class="total">
+              <p>销售底价：</p>
+              <div class="total-container">
+                <h2>{{total | currency:'CNY'}}</h2>
+                <ul class="dashed">
+                  <li>单车售价: {{singlePrice | currency:'CNY'}}</li>
+                  <li>保险售价: {{insurancePrice | currency:'CNY'}}</li>
+                  <li>精品售价: {{giftPrice | currency:'CNY'}}</li>
+                </ul>
+              </div>
+            
+            </div>
           </div>
+          
         </ng-container>
 
 
